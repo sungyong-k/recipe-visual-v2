@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import IngredientInput from "@/components/IngredientInput";
+import CuisineSelector from "@/components/CuisineSelector";
 import RecipeCard from "@/components/RecipeCard";
 import type { Recipe } from "@/lib/types";
 
 export default function Home() {
   const router = useRouter();
   const [ingredients, setIngredients] = useState<string[]>([]);
+  const [cuisine, setCuisine] = useState("");
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +35,7 @@ export default function Home() {
       const res = await fetch("/api/generate-recipe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ingredients }),
+        body: JSON.stringify({ ingredients, ...(cuisine ? { cuisine } : {}) }),
       });
 
       if (!res.ok) {
@@ -66,6 +68,10 @@ export default function Home() {
           onAdd={addIngredient}
           onRemove={removeIngredient}
         />
+      </div>
+
+      <div className="mt-4">
+        <CuisineSelector value={cuisine} onChange={setCuisine} />
       </div>
 
       <div className="mt-6 text-center">
