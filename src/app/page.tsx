@@ -54,8 +54,8 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-center text-4xl font-bold text-gray-900">
+    <main className="mx-auto max-w-3xl px-4 py-8 sm:py-12">
+      <h1 className="text-center text-3xl font-bold text-gray-900 sm:text-4xl">
         AI Recipe Visualizer
       </h1>
       <p className="mt-2 text-center text-gray-500">
@@ -78,7 +78,7 @@ export default function Home() {
         <button
           onClick={generateRecipe}
           disabled={!ingredients.length || loading}
-          className="rounded-lg bg-orange-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-lg bg-orange-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
           data-testid="generate-button"
         >
           {loading ? "Generating..." : "Generate Recipe"}
@@ -97,7 +97,7 @@ export default function Home() {
           <div className="mt-6 text-center">
             <button
               onClick={() => router.push(`/recipe/${recipe.id}`)}
-              className="rounded-lg bg-orange-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-orange-600"
+              className="w-full rounded-lg bg-orange-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-orange-600 sm:w-auto"
               data-testid="view-recipe-button"
             >
               View Step-by-Step with Images

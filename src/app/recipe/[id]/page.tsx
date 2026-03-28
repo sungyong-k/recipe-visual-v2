@@ -73,7 +73,7 @@ export default function RecipePage() {
         Back to home
       </button>
 
-      <h1 className="text-3xl font-bold text-gray-900" data-testid="recipe-title">
+      <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl" data-testid="recipe-title">
         {recipe.name}
       </h1>
       <p className="mt-2 text-gray-600">{recipe.description}</p>
