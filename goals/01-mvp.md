@@ -1,6 +1,6 @@
 # Goal 01: MVP — AI Recipe Visualizer
 
-> status: inactive
+> status: active
 > created: 2026-03-28
 
 ## Vision
