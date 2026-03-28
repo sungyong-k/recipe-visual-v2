@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 
+
 test("home page loads with title and input", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("h1")).toHaveText("AI Recipe Visualizer");
@@ -26,4 +27,21 @@ test("can add and remove ingredients", async ({ page }) => {
   // Remove first ingredient
   await page.getByLabel("Remove chicken").click();
   await expect(page.getByText("chicken")).not.toBeVisible();
+});
+
+test("cuisine selector is visible and allows selection", async ({ page }) => {
+  await page.goto("/");
+  const selector = page.getByTestId("cuisine-select");
+  await expect(selector).toBeVisible();
+
+  // Default is "Any Style" (empty value)
+  await expect(selector).toHaveValue("");
+
+  // Select Korean cuisine
+  await selector.selectOption("Korean");
+  await expect(selector).toHaveValue("Korean");
+
+  // Select Italian cuisine
+  await selector.selectOption("Italian");
+  await expect(selector).toHaveValue("Italian");
 });
