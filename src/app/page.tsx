@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import IngredientInput from "@/components/IngredientInput";
 import RecipeCard from "@/components/RecipeCard";
 import type { Recipe } from "@/lib/types";
 
 export default function Home() {
+  const router = useRouter();
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(false);
@@ -40,6 +42,7 @@ export default function Home() {
       }
 
       const data: Recipe = await res.json();
+      localStorage.setItem(`recipe:${data.id}`, JSON.stringify(data));
       setRecipe(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -85,6 +88,15 @@ export default function Home() {
       {recipe && (
         <div className="mt-8">
           <RecipeCard recipe={recipe} />
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => router.push(`/recipe/${recipe.id}`)}
+              className="rounded-lg bg-orange-500 px-8 py-3 text-lg font-semibold text-white transition hover:bg-orange-600"
+              data-testid="view-recipe-button"
+            >
+              View Step-by-Step with Images
+            </button>
+          </div>
         </div>
       )}
     </main>
