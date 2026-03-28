@@ -1,30 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import type { Recipe } from "@/lib/types";
 import RecipeStepper from "@/components/RecipeStepper";
+
+function loadRecipe(id: string): { recipe: Recipe | null; notFound: boolean } {
+  if (typeof window === "undefined") {
+    return { recipe: null, notFound: false };
+  }
+  const stored = localStorage.getItem(`recipe:${id}`);
+  if (!stored) {
+    return { recipe: null, notFound: true };
+  }
+  try {
+    return { recipe: JSON.parse(stored) as Recipe, notFound: false };
+  } catch {
+    return { recipe: null, notFound: true };
+  }
+}
 
 export default function RecipePage() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
 
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-  const [notFound, setNotFound] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem(`recipe:${id}`);
-    if (!stored) {
-      setNotFound(true);
-      return;
-    }
-    try {
-      setRecipe(JSON.parse(stored));
-    } catch {
-      setNotFound(true);
-    }
-  }, [id]);
+  const { recipe, notFound } = useMemo(() => loadRecipe(id), [id]);
 
   if (notFound) {
     return (
